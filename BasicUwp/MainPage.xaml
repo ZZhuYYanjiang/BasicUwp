@@ -9,6 +9,18 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <RefreshContainer Name="RefreshContainer" RefreshRequested="RefreshContainer_RefreshRequested">
+            <ListView Name="ContactListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding FirstName}" Margin="0,0,0,0"></TextBlock>
+                            <TextBlock Text="{Binding LastName}" Margin="10,0,0,0"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </RefreshContainer>
+        <Button Click="Button_Click"></Button>
     </Grid>
 </Page>

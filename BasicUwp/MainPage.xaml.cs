@@ -1,10 +1,12 @@
-﻿using System;
+﻿using BasicUwp.Services;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +27,21 @@ namespace BasicUwp
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private async void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
+        {
+            using (var deferral = args.GetDeferral())
+            {
+                var contactservices = new ContactServices();
+                var contacts = (await contactservices.ListAsync()).ToList();
+                ContactListView.ItemsSource = contacts;
+            }              
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshContainer.RequestRefresh();
         }
     }
 }
