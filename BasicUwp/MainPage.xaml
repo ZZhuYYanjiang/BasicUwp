@@ -24,6 +24,8 @@
                     <VisualState.Setters>
                         <Setter Target="MasterColumn.Width" Value="*"></Setter>
                         <Setter Target="DetailColumn.Width" Value="0"></Setter>
+                        <Setter Target="ContactListView.SelectionMode"
+                                Value="None"></Setter>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

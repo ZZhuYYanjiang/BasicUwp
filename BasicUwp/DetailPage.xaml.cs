@@ -34,6 +34,17 @@ namespace BasicUwp
         {
             base.OnNavigatedTo(e);
             var DetailContact=e.Parameter as Contact;
+            var backStack = Frame.BackStack;
+            var backstackcount = backStack.Count;
+            if(backstackcount>0)
+            {
+                //栈顶
+                var masterPageEntry = backStack[backstackcount - 1];
+                backStack.RemoveAt(backstackcount - 1);
+                //修改原本栈顶信息，再回填
+                var modifiedEntry = new PageStackEntry(masterPageEntry.SourcePageType,DetailContact,masterPageEntry.NavigationTransitionInfo);
+                backStack.Add(modifiedEntry);  //不回填无法Frame.GoBack
+            }
             FirstNameTextBox.Text = DetailContact.FirstName;
             LastNameTextBox.Text = DetailContact.LastName;
         }
@@ -48,6 +59,7 @@ namespace BasicUwp
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
+            //TODO
             Frame.GoBack(new DrillInNavigationTransitionInfo());
         }
 

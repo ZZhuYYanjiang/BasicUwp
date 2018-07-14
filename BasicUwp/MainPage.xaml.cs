@@ -33,6 +33,24 @@ namespace BasicUwp
             this.InitializeComponent();
         }
 
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            var contacts = ContactListView.ItemsSource as List<Contact>;
+            if (contacts == null)
+            {
+                var contactservices = new ContactServices();
+                contacts = (await contactservices.ListAsync()).ToList();
+                ContactListView.ItemsSource = contacts;
+            }
+            if(e.Parameter is Contact contact)
+            {
+                _lastSelectedContact = contacts.FirstOrDefault(p => p.Id == contact.Id);
+                FirstNameTextBox.Text = _lastSelectedContact.FirstName;
+                LastNameTextBox.Text = _lastSelectedContact.LastName;
+            }
+        }
+
         private async void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
         {
             using (var deferral = args.GetDeferral())
