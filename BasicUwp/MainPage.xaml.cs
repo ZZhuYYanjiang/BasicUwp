@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
@@ -25,7 +26,7 @@ namespace BasicUwp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private Contact _lastSelectedContact;
+        public static Contact _lastSelectedContact;
 
         public MainPage()
         {
@@ -51,8 +52,15 @@ namespace BasicUwp
         {
             var ClickContent = e.ClickedItem as Contact;
             _lastSelectedContact = ClickContent;
-            FirstNameTextBox.Text = ClickContent.FirstName;
-            LastNameTextBox.Text = ClickContent.LastName;
+            if(AdaptiveStates.CurrentState==DefaultState)
+            {
+                FirstNameTextBox.Text = ClickContent.FirstName;
+                LastNameTextBox.Text = ClickContent.LastName;
+            }
+            else
+            {
+                Frame.Navigate(typeof(DetailPage),ClickContent,new DrillInNavigationTransitionInfo());
+            }
         }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
