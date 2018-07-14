@@ -1,4 +1,5 @@
-﻿using BasicUwp.Services;
+﻿using BasicUwp.Models;
+using BasicUwp.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +25,8 @@ namespace BasicUwp
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private Contact _lastSelectedContact;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -42,6 +45,22 @@ namespace BasicUwp
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             RefreshContainer.RequestRefresh();
+        }
+
+        private void ContactListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var ClickContent = e.ClickedItem as Contact;
+            _lastSelectedContact = ClickContent;
+            FirstNameTextBox.Text = ClickContent.FirstName;
+            LastNameTextBox.Text = ClickContent.LastName;
+        }
+
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            _lastSelectedContact.FirstName = FirstNameTextBox.Text;
+            _lastSelectedContact.LastName = LastNameTextBox.Text;
+            var contactServices = new ContactServices();
+            await contactServices.UpdateAsync(_lastSelectedContact);
         }
     }
 }
