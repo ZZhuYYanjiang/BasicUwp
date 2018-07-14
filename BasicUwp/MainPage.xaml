@@ -9,18 +9,45 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <RefreshContainer Name="RefreshContainer" RefreshRequested="RefreshContainer_RefreshRequested">
-            <ListView Name="ContactListView">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding FirstName}" Margin="0,0,0,0"></TextBlock>
-                            <TextBlock Text="{Binding LastName}" Margin="10,0,0,0"></TextBlock>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </RefreshContainer>
-        <Button Click="Button_Click"></Button>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <RefreshContainer Name="RefreshContainer"
+                              Grid.Row="0"
+                              RefreshRequested="RefreshContainer_RefreshRequested">
+                <ListView Name="ContactListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding FirstName}" Margin="0,0,0,0"></TextBlock>
+                                <TextBlock Text="{Binding LastName}" Margin="10,0,0,0"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </RefreshContainer>
+
+            <CommandBar Grid.Row="1" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                <AppBarButton Icon="Refresh" Label="Refresh" Name="RefreshButton" Click="RefreshButton_Click"></AppBarButton>
+            </CommandBar>
+        </Grid>
+
+        <StackPanel Grid.Column="1" Padding="24">
+            <TextBlock Text="First Name" 
+                       Style="{StaticResource CaptionTextBlockStyle}" 
+                       Margin="0,0,0,4"/>
+            <TextBox Name="FirstNameTextBox"></TextBox>
+            <TextBlock Text="Last Name" 
+                       Style="{StaticResource CaptionTextBlockStyle}" 
+                       Margin="0,12,0,4"/>
+            <TextBox Name="LastNameTextBox"></TextBox>
+        </StackPanel>
     </Grid>
 </Page>

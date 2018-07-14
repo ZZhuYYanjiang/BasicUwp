@@ -39,7 +39,7 @@ namespace BasicUwp
             }              
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             RefreshContainer.RequestRefresh();
         }
