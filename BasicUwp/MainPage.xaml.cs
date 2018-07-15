@@ -89,9 +89,14 @@ namespace BasicUwp
             await contactServices.UpdateAsync(_lastSelectedContact);
         }
 
-        private void AdaptiveStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
+        private void cButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+        //private void AdaptiveStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
+        //{
+
+        //}
     }
 }
