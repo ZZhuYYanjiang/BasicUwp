@@ -1,4 +1,5 @@
 ﻿using BasicUwp.Models;
+using BasicUwp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BasicUwp.ViewModels
 {
-    public class MainPageViewModels:ViewmodelBase
+    public class MainPageViewModels : ViewModelBase
     {
         /// <summary>
         /// 选择的联系人
@@ -37,6 +38,47 @@ namespace BasicUwp.ViewModels
         /// </summary>
         private RelayCommand _listCommand;
 
-        public RelayCommand ListCommand => _listCommand ?? (_listCommand = new RelayCommand(() => { /**/}));
+        /// <summary>
+        /// 刷新命令
+        /// </summary>
+        public RelayCommand ListCommand =>
+                    _listCommand ?? (_listCommand = new RelayCommand(async () =>
+                    {
+                        ContactCollection.Clear();
+                        var contacts = await _contactService.ListAsync();
+                        foreach (var contact in contacts)
+                        {
+                            ContactCollection.Add(contact);
+                        }
+                    }));
+
+        /// <summary>
+        /// 更新命令。
+        /// </summary>
+        private RelayCommand<Contact> _updateCommand;
+
+        /// <summary>
+        /// 更新命令。
+        /// </summary>
+        public RelayCommand<Contact> UpdateCommand =>
+            _updateCommand ?? (_updateCommand =
+                new RelayCommand<Contact>(async contact => {
+                    await _contactService.UpdateAsync(contact);
+                }));
+
+        /// <summary>
+        /// 联系人服务
+        /// </summary>
+        private IContactService _contactService;
+
+        public MainPageViewModel(IContactService contactService)
+        {
+            this._contactService = contactService;
+        }
+
+        public MainPageViewModel():this(new ContactServices())
+        {
+
+        }
     }
 }

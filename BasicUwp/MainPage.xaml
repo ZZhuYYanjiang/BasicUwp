@@ -9,6 +9,10 @@
     NavigationCacheMode="Enabled"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.DataContext>
+        <Binding Source="{StaticResource MainPageViewModel}"/>
+    </Page.DataContext>
+        
     <Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="AdaptiveStates_CurrentStateChanged">
@@ -59,14 +63,17 @@
                               Grid.Row="0"
                               RefreshRequested="RefreshContainer_RefreshRequested">
                 <ListView Name="ContactListView" 
-                          IsItemClickEnabled="True" 
+                          IsItemClickEnabled="True"
+                          ItemsSource="{Binding ContactCollection}"
                           ItemClick="ContactListView_ItemClick">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding FirstName}" 
+                                <TextBlock Text="{Binding FirstName}"
+                                           Style="{StaticResource BaseTextBlockStyle}"
                                            Margin="0,0,0,0"/>
                                 <TextBlock Text="{Binding LastName}" 
+                                           Style="{StaticResource BaseTextBlockStyle}"
                                            Margin="12,0,0,0"/>
                             </StackPanel>
                         </DataTemplate>
